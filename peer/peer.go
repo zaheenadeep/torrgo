@@ -4,14 +4,17 @@ import (
 	"bufio"
 	"io"
 	"fmt"
-	"gotorrent/tracker"
 	"net"
 	"bytes"
 	"strings"
 )
 
 // TODO change Peer to a suitable type
-type Peer tracker.PeerDatum
+type Peer struct {
+	PeerId      string
+	PeerAddress string
+	Port        int64
+}
 
 const (
 	PSTR         = "BitTorrent protocol"
