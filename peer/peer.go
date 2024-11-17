@@ -49,7 +49,7 @@ func (p *Peer) Handshake(infoHash []byte) error {
 
 	pstrlen, err := r.ReadByte()
 	if err != nil {
-		return fmt.Errorf("w.ReadByte: %v", err)
+		return fmt.Errorf("r.ReadByte: %v", err)
 	}
 
 	var pstr strings.Builder
