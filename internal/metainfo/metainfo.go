@@ -39,7 +39,7 @@ type Metainfo struct {
 	Encoding     string        `bencode:"encoding,omitempty"`
 }
 
-func UnmarshalMetainfo(name string) (*Metainfo, error) {
+func Load(name string) (*Metainfo, error) {
 	data, err := os.ReadFile(name)
 	if err != nil {
 		return nil, fmt.Errorf("os.ReadFile: %v", err)

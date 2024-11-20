@@ -14,7 +14,7 @@ func TestHitchhikers(t *testing.T) {
 }
 
 func testFile(name string, t *testing.T) {
-	mi, err := UnmarshalMetainfo(name)
+	mi, err := Load(name)
 	if err != nil {
 		t.Fatal(err)
 	}
