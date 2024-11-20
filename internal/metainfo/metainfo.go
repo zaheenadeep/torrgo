@@ -3,12 +3,13 @@ package metainfo
 import (
 	"os"
 	"fmt"
+	"strings"
 	"github.com/anacrolix/torrent/bencode"
 )
 
 type SingleFileInfo struct {
 	PieceLength int    `bencode:"piece length"`
-	Pieces      string `bencode:"pieces"`
+	Pieces      []byte `bencode:"pieces"`
 	Private     int    `bencode:"private,omitempty"`
 	Name        string `bencode:"name"`
 	Length      int    `bencode:"length"`
@@ -23,13 +24,16 @@ type MIFile struct {
 
 type MultiFileInfo struct {
 	PieceLength int      `bencode:"piece length"`
-	Pieces      string   `bencode:"pieces"`
+	Pieces      []byte   `bencode:"pieces"`
 	Private     int      `bencode:"private,omitempty"`
 	Name        string   `bencode:"name"`
-	Files       []MIFile `bencode:"md5sum"`
+	Files       []MIFile `bencode:"files"`
 }
 
+type FileInfo interface{}
+
 type Metainfo struct {
+	Info         FileInfo
 	InfoBytes    bencode.Bytes `bencode:"info"`
 	Announce     string        `bencode:"announce"`
 	AnnounceList [][]string	   `bencode:"announce-list,omitempty"`
@@ -49,6 +53,22 @@ func Load(name string) (*Metainfo, error) {
 	err = bencode.Unmarshal(data, &mi)
 	if err != nil {
 		return nil, fmt.Errorf("bencode.Unmarshal: %v", err)
+	}
+
+	if(strings.Contains(mi.InfoBytes.GoString(), ":pathl")) {
+		var m MultiFileInfo
+		err = bencode.Unmarshal(mi.InfoBytes, &m)
+		if err != nil {
+			return nil, fmt.Errorf("bencode.Unmarshal: %v", err)
+		}
+		mi.Info = m
+	} else {
+		var s SingleFileInfo
+		err = bencode.Unmarshal(mi.InfoBytes, &s)
+		if err != nil {
+			return nil, fmt.Errorf("bencode.Unmarshal: %v", err)
+		}
+		mi.Info = s
 	}
 
 	return &mi, nil
