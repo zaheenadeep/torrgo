@@ -6,15 +6,17 @@ import (
 	"github.com/anacrolix/torrent/bencode"
 )
 
+type InfoDict struct {
+	PieceLength int    `bencode:"piece length"`
+	Pieces      string `bencode:"pieces"`
+	Private     int    `bencode:"private,omitempty"`
+	Name        string `bencode:"name"`
+	Length      int    `bencode:"length"`
+	MD5Sum      string `bencode:"md5sum"`
+}
+
 type Metainfo struct {
-	Info         struct {
-		PieceLength int    `bencode:"piece length"`
-		Pieces      string `bencode:"pieces"`
-		Private     int    `bencode:"private,omitempty"`
-		Name        string `bencode:"name"`
-		Length      int    `bencode:"length"`
-		MD5Sum      string `bencode:"md5sum"`
-	}                       `bencode:"info"`
+	Info         InfoDict   `bencode:"info"`
 	Announce     string     `bencode:"announce"`
 	AnnounceList [][]string	`bencode:"announce-list,omitempty"`
 	CreationDate int        `bencode:"creation date,omitempty"`
