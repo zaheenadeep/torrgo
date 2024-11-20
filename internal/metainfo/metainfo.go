@@ -55,7 +55,7 @@ func Load(name string) (*Metainfo, error) {
 		return nil, fmt.Errorf("bencode.Unmarshal: %v", err)
 	}
 
-	if(strings.Contains(mi.InfoBytes.GoString(), ":pathl")) {
+	if strings.Contains(mi.InfoBytes.GoString(), ":pathl") {
 		var m MultiFileInfo
 		err = bencode.Unmarshal(mi.InfoBytes, &m)
 		if err != nil {
