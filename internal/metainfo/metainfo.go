@@ -4,6 +4,7 @@ import (
 	"os"
 	"fmt"
 	"strings"
+	"crypto/sha1"
 	"github.com/anacrolix/torrent/bencode"
 )
 
@@ -72,4 +73,8 @@ func Load(name string) (*Metainfo, error) {
 	}
 
 	return &mi, nil
+}
+
+func (mi *Metainfo) InfoHash() [sha1.Size]byte {
+	return sha1.Sum(mi.InfoBytes)
 }
