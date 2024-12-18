@@ -75,6 +75,7 @@ func Load(name string) (*Metainfo, error) {
 	return &mi, nil
 }
 
-func (mi *Metainfo) InfoHash() [sha1.Size]byte {
-	return sha1.Sum(mi.InfoBytes)
+func (mi *Metainfo) InfoHash() []byte {
+	b := sha1.Sum(mi.InfoBytes)
+	return b[:]
 }
