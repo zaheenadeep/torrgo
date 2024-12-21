@@ -1,18 +1,19 @@
 package tracker
 
 import (
-	"os"
-	"fmt"
-	"time"
-	"net/http"
-	"hash/fnv"
 	"encoding/base64"
+	"fmt"
 	"github.com/zaheenadeep/torrgo/internal/metainfo"
+	"hash/fnv"
+	"net/http"
+	"os"
+	"time"
 )
 
 const (
-	ClientID = "TG"
-	ClientVersion  = "0001"
+	ClientID      = "TG"
+	ClientVersion = "0001"
+	Port          = 6881
 )
 
 func Announce(mi *metainfo.Metainfo) error {
@@ -23,17 +24,17 @@ func Announce(mi *metainfo.Metainfo) error {
 	}
 	req.Header.Add("info_hash", base64.URLEncoding.EncodeToString(mi.InfoHash()))
 	req.Header.Add("peer_id", GeneratePeerID())
-	req.Header.Add("port", )
-	req.Header.Add("uploaded", )
-	req.Header.Add("downloaded", )
-	req.Header.Add("left", )
-	req.Header.Add("compact", )
-	req.Header.Add("no_peer_id", )
-	req.Header.Add("event", )
-	req.Header.Add("ip", )
-	req.Header.Add("numwant", )
-	req.Header.Add("key", )
-	req.Header.Add("trackerid", )
+	req.Header.Add("port", string(Port))
+	req.Header.Add("uploaded", "0")
+	req.Header.Add("downloaded", "0")
+	req.Header.Add("left", string(mi.TotalSize()))
+	req.Header.Add("compact", "0")  // TODO: Implement 1
+	req.Header.Add("no_peer_id", "0")
+	req.Header.Add("event", "started")
+	// req.Header.Add("ip")
+	// req.Header.Add("numwant")
+	// req.Header.Add("key")
+	// req.Header.Add("trackerid")
 	resp, err := c.Do(req)
 	return err
 }
