@@ -6,11 +6,11 @@ import (
 )
 
 func TestArtOfWar(t *testing.T) {
-	testFile("artofwar.torrent", t)
+	testFile("../testfiles/artofwar.torrent", t)
 }
 
 func TestHitchhikers(t *testing.T) {
-	testFile("hitchhikersguide.torrent", t)
+	testFile("../testfiles/hitchhikersguide.torrent", t)
 }
 
 func testFile(name string, t *testing.T) {
